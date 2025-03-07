@@ -15,6 +15,13 @@
       "when": 1741360104807,
       "tag": "0001_eminent_iron_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741365227177,
+      "tag": "0002_loving_echo",
+      "breakpoints": true
     }
   ]
 }
