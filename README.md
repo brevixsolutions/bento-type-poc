@@ -2,3 +2,9 @@
 - [ ] Connect to the Database from the Application
 - [ ] Set up Drizzle ORM
 - [ ] Define All the entities
+- [ ] Set up the Database Migrations
+- [ ] Set up the Login logic
+- [ ] Set up the Registration logic
+- [ ] Set up the Logout logic
+- [ ] Set up the CRUD operations
+- [ ] Set up the Protected Routes
