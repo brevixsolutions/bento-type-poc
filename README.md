@@ -4,8 +4,8 @@
 - [x] Define All the entities
 - [x] Set up the Database Migrations
 - [x] Set up the Login logic
-- [ ] Set up the Registration logic
-- [ ] Set up the Logout logic
+- [x] Set up the Registration logic
+- [x] Set up the Logout logic
 - [x] Set up the CRUD operations
 - [ ] Set up the Protected Routes
 
