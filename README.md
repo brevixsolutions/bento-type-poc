@@ -9,14 +9,15 @@
 - [x] Set up the CRUD operations
 - [ ] Set up the Protected Routes
 
-
 Starting a new docker postgres container
-```
+
+```sh
 docker run -d --name postgres-container -p 5432:5432 -e POSTGRES_PASSWORD=test123 -d postgres
 ```
 
 ### Only to be used by Ayush
-To restart your stopped Docker container, you can use the following command:  
+
+To restart your stopped Docker container, you can use the following command:
 
 ```sh
 docker start 583413dd6626
@@ -24,7 +25,7 @@ docker start 583413dd6626
 
 This will start the container in the background with the same settings as before.
 
-If you need to attach to the container's logs or interact with it, you can use:  
+If you need to attach to the container's logs or interact with it, you can use:
 
 ```sh
 docker logs -f 583413dd6626
@@ -36,7 +37,7 @@ or
 docker attach 583413dd6626
 ```
 
-If the container was running a server that needs to be executed manually, you might need to run it interactively using:  
+If the container was running a server that needs to be executed manually, you might need to run it interactively using:
 
 ```sh
 docker restart 583413dd6626
