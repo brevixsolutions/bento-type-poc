@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import userApiClient from "@/client/user";
 
 // Define the validation schema with Zod
 const signupSchema = z.object({
@@ -107,13 +108,17 @@ export default function SignupPage() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const user = await userApiClient.signupUser({
+        ...formData,
+      });
+
+      localStorage.setItem("USER_DETAILS", JSON.stringify(user));
 
       // Here you would typically call your registration API
       console.log("Form submitted successfully:", formData);
 
       // Redirect to login page or dashboard
-      router.push("/login");
+      router.push(`/dashboard/${user.username}`);
     } catch (err) {
       setGeneralError("Failed to create account. Please try again.");
     } finally {

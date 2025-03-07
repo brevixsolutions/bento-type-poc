@@ -21,6 +21,15 @@ interface LoginResponseObject {
   message: string;
 }
 
+interface UserSignupRequestObject {
+  email: string;
+  password: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  bio?: string | undefined;
+}
+
 class ApiClient {
   private api: any;
 
@@ -36,6 +45,25 @@ class ApiClient {
       const response: { data: LoginResponseObject } = await this.api.post(
         "/login",
         { email, password }
+      );
+      return response.data.user;
+    } catch (error) {
+      console.error("Error logging in user:", error);
+      throw error;
+    }
+  }
+  async signupUser({
+    email,
+    password,
+    firstName,
+    lastName,
+    username,
+    bio,
+  }: UserSignupRequestObject): Promise<User> {
+    try {
+      const response: { data: LoginResponseObject } = await this.api.post(
+        "/signup",
+        { email, password, firstName, lastName, username, bio }
       );
       return response.data.user;
     } catch (error) {

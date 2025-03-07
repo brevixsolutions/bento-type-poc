@@ -1,11 +1,12 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import db from "../../db/connection.js";
 import { users } from "../../db/schema.js";
-import { eq, lt, gte, ne } from "drizzle-orm";
+import { eq, lt, gte, ne, and } from "drizzle-orm";
+import type { BlankEnv, BlankInput } from "hono/types";
 
 const userRoute = new Hono();
 
-userRoute.post("/login", async (c) => {
+async function login(c: Context<BlankEnv, "/login", BlankInput>) {
   const { email, password } = await c.req.json();
   if (!email || !password) return c.json("Missing email or password", 400);
 
@@ -29,6 +30,51 @@ userRoute.post("/login", async (c) => {
     },
     200
   );
-});
+}
+
+async function signup(c: Context<BlankEnv, "/signin", BlankInput>) {
+  const { email, password, firstName, lastName, username, bio } =
+    await c.req.json();
+  if (!email || !password || !firstName || !lastName || !username || !bio)
+    return c.json("Missing email or password", 400);
+
+  // TODO: Check if user exists and password is correct
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email) || eq(users.username, username));
+  if (user.length) return c.json("User already exists", 409);
+
+  // TODO: Create user
+  const newUser = await db
+    .insert(users)
+    .values({
+      email,
+      password,
+      firstName,
+      lastName,
+      username,
+      bio,
+    })
+    .returning();
+
+  return c.json(
+    {
+      user: {
+        id: newUser[0].id,
+        bio: newUser[0].bio,
+        email: newUser[0].email,
+        profilePic: newUser[0].profilePic,
+        createdAt: newUser[0].createdAt,
+        username: newUser[0].username,
+      },
+      message: "Signin successful",
+    },
+    200
+  );
+}
+
+userRoute.post("/login", login);
+userRoute.post("/signup", signup);
 
 export default userRoute;
