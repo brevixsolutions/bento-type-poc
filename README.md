@@ -1,0 +1,4 @@
+- [ ] Set up the Database from the Docker
+- [ ] Connect to the Database from the Application
+- [ ] Set up Drizzle ORM
+- [ ] Define All the entities
