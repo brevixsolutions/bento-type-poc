@@ -1,10 +1,10 @@
-- [ ] Set up the Database from the Docker
-- [ ] Connect to the Database from the Application
-- [ ] Set up Drizzle ORM
-- [ ] Define All the entities
-- [ ] Set up the Database Migrations
-- [ ] Set up the Login logic
+- [x] Set up the Database from the Docker
+- [x] Connect to the Database from the Application
+- [x] Set up Drizzle ORM
+- [x] Define All the entities
+- [x] Set up the Database Migrations
+- [x] Set up the Login logic
 - [ ] Set up the Registration logic
 - [ ] Set up the Logout logic
-- [ ] Set up the CRUD operations
+- [x] Set up the CRUD operations
 - [ ] Set up the Protected Routes
