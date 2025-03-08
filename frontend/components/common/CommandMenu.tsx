@@ -22,7 +22,11 @@ import {
   LayoutGrid,
 } from "lucide-react";
 
-export function CommandMenu() {
+interface CommandMenuProps {
+  onAddLink: () => void;
+}
+
+export function CommandMenu({ onAddLink }: CommandMenuProps) {
   const [open, setOpen] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
@@ -67,7 +71,13 @@ export function CommandMenu() {
         className="w-56 bg-zinc-900 border-zinc-800 text-zinc-200 absolute"
         align="start"
       >
-        <DropdownMenuItem className="text-zinc-400">
+        <DropdownMenuItem 
+          className="text-zinc-400"
+          onClick={() => {
+            onAddLink();
+            setOpen(false);
+          }}
+        >
           <Clipboard className="mr-2 h-4 w-4" />
           <span>Add A link</span>
         </DropdownMenuItem>

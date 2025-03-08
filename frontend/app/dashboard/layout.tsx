@@ -1,5 +1,4 @@
 "use client";
-import { CommandMenu } from "@/components/common/CommandMenu";
 import { useAuth } from "@/components/context/AuthContext";
 import { redirect } from "next/navigation";
 
@@ -15,7 +14,6 @@ function layout({
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8 lg:p-12">
-      <CommandMenu />
       <div className="max-w-7xl mx-auto">{children}</div>
     </div>
   );
