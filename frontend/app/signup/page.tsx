@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import userApiClient from "@/client/user";
+import { useAuth } from "@/components/context/AuthContext";
 
 // Define the validation schema with Zod
 const signupSchema = z.object({
@@ -59,6 +60,7 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [generalError, setGeneralError] = useState("");
   const router = useRouter();
+  const { setUserMain, user: authUser } = useAuth();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -113,18 +115,25 @@ export default function SignupPage() {
       });
 
       localStorage.setItem("USER_DETAILS", JSON.stringify(user));
+      setUserMain(user);
 
       // Here you would typically call your registration API
       console.log("Form submitted successfully:", formData);
 
       // Redirect to login page or dashboard
-      router.push(`/dashboard/${user.username}`);
+      router.push(`/dashboard`);
     } catch (err) {
       setGeneralError("Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (authUser !== null) {
+      router.push("/dashboard");
+    }
+  }, [authUser, router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">

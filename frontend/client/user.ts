@@ -1,34 +1,12 @@
+import {
+  LoginResponseObject,
+  User,
+  UserLoginRequestObject,
+  UserSignupRequestObject,
+} from "@/lib/types/userClientTypes";
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/users"; // Replace with your API URL
-
-interface UserLoginRequestObject {
-  email: string;
-  password: string;
-}
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  profilePic: string | null;
-  bio: string | null;
-  createdAt: Date | null;
-}
-
-interface LoginResponseObject {
-  user: User;
-  message: string;
-}
-
-interface UserSignupRequestObject {
-  email: string;
-  password: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  bio?: string | undefined;
-}
 
 class ApiClient {
   private api: any;

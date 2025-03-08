@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
@@ -21,6 +21,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import userApiClient from "@/client/user";
+import { useAuth } from "@/components/context/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email address"),
@@ -34,6 +35,15 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { setUserMain, user: authUser } = useAuth();
+
+  // Replace the direct router.push with useEffect
+  useEffect(() => {
+    if (authUser !== null) {
+      router.push('/dashboard');
+    }
+  }, [authUser, router]);
 
   const {
     register,
@@ -55,9 +65,10 @@ export default function LoginPage() {
       });
 
       localStorage.setItem("USER_DETAILS", JSON.stringify(user));
+      setUserMain(user);
 
       // If successful, redirect to dashboard
-      router.push(`/dashboard/${user.username}`);
+      router.push(`/dashboard`);
     } catch (err) {
       setError("Login failed. Please try again.");
     } finally {
