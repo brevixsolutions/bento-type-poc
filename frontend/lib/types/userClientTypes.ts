@@ -10,6 +10,8 @@ export interface User {
   profilePic: string | null;
   bio: string | null;
   createdAt: Date | null;
+  first_name: string;
+  last_name: string;
 }
 
 export interface LoginResponseObject {

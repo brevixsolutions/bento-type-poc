@@ -76,7 +76,7 @@ export function BentoCard({
       onContextMenu={handleClick}
       className={cn(
         `col-span-${cols} row-span-${rows}`,
-        "bg-gray-50 rounded-xl p-4 flex flex-col cursor-pointer touch-none",
+        "bg-gray-800 rounded-xl p-4 flex flex-col cursor-pointer touch-none",
         isDragging && "opacity-50 shadow-2xl scale-105",
         "transition-all duration-200 ease-in-out"
       )}
@@ -88,8 +88,8 @@ export function BentoCard({
           <Icon className={`w-5 h-5 text-${iconColor}`} />
         </div>
         <div>
-          <p className="font-medium">{title}</p>
-          {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+          <p className="font-medium text-white">{title}</p>
+          {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
         </div>
       </div>
 

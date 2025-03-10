@@ -13,6 +13,7 @@ const resizeOptions: ResizeOption[] = [
   { cols: 6, rows: 1, label: "Full Width" },
   { cols: 3, rows: 1, label: "Half Width" },
   { cols: 2, rows: 2, label: "Square" },
+  { cols: 2, rows: 1, label: "Default" },
 ];
 
 interface ResizeMenuProps {

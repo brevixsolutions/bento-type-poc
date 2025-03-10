@@ -13,7 +13,7 @@ function layout({
   }
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-gray-900 p-4 md:p-8 lg:p-12">
       <div className="max-w-7xl mx-auto">{children}</div>
     </div>
   );

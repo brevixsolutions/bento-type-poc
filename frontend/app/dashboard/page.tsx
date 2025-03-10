@@ -21,6 +21,7 @@ import { AddLinkForm } from "@/components/common/AddLinkForm";
 import { CommandMenu } from "@/components/common/CommandMenu";
 import { AnimatePresence } from "framer-motion";
 import { ResizeMenu } from "@/components/common/ResizeMenu";
+import { useAuth } from "@/components/context/AuthContext";
 
 export default function DashboardPage() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -33,10 +34,10 @@ export default function DashboardPage() {
       icon: Twitter,
       iconBgColor: "bg-blue-400",
       title: "Twitter",
-      subtitle: "@eyeshreya",
+      subtitle: "@ayush",
       actionButton: {
         text: "Follow",
-        onClick: () => window.open("https://twitter.com/eyeshreya", "_blank"),
+        onClick: () => window.open("https://twitter.com/ayush", "_blank"),
         variant: "primary",
       },
     },
@@ -46,7 +47,7 @@ export default function DashboardPage() {
       rows: 1,
       icon: Github,
       iconBgColor: "bg-black",
-      title: "Shreya Purohit",
+      title: "kingpin-ay",
       actionButton: {
         text: "Follow",
         onClick: () => {},
@@ -111,23 +112,7 @@ export default function DashboardPage() {
       )}
       <div className="flex flex-col md:flex-row md:gap-12">
         {/* Bio Section */}
-        <div className="flex flex-col items-center md:items-start mb-8 md:mb-0 md:sticky md:top-12 md:self-start md:w-1/4">
-          <div className="w-32 h-32 md:w-40 md:h-40 relative mb-4">
-            <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-B6kDMDRY4L1SKYbyhRvpIosRyjdAcC.png"
-              alt="Profile Picture"
-              className="rounded-full object-cover"
-              width={160}
-              height={160}
-            />
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            Shreya Purohit
-          </h1>
-          <p className="text-gray-600 text-lg">Data Analyst</p>
-
-          <LogoutButton />
-        </div>
+        <BioCard />
 
         {/* Cards Section */}
         <div className="md:w-3/4">
@@ -164,7 +149,13 @@ export default function DashboardPage() {
                         | "primary"
                         | "secondary",
                     }}
-                    onSelect={() => setSelectedCard(card.id)}
+                    onSelect={() => {
+                      if (selectedCard != null) {
+                        setSelectedCard(null);
+                        return;
+                      }
+                      setSelectedCard(card.id);
+                    }}
                   />
                 ))}
               </SortableContext>
@@ -183,5 +174,30 @@ export default function DashboardPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function BioCard() {
+  const { user } = useAuth();
+  console.log("user: ", user);
+  return (
+    <div className="flex flex-col items-center md:items-start mb-8 md:mb-0 md:sticky md:top-12 md:self-start md:w-1/4 gap-4">
+      <div className="w-32 h-32 md:w-40 md:h-40 relative mb-4">
+        <img
+          src={user?.profilePic ?? ""}
+          alt="Profile Picture"
+          className="rounded-full object-cover w-32 h-32 md:w-40 md:h-40"
+        />
+      </div>
+      <div className="flex flex-col items-center md:items-start gap-1">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2 text-white">
+          {user?.first_name + " " + user?.last_name}
+        </h1>
+        <p className="text-gray-400 text-lg">Data Analyst</p>
+        <p className="text-gray-400 text-sm">{user?.bio}</p>
+      </div>
+
+      <LogoutButton />
+    </div>
   );
 }
