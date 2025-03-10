@@ -1,12 +1,15 @@
 "use client";
 
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { ResizeMenu } from "./ResizeMenu";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 interface BentoCardProps {
-  id: string;  // Add this new prop
+  id: string; // Add this new prop
   cols: number;
   rows: number;
   icon: LucideIcon;
@@ -21,32 +24,11 @@ interface BentoCardProps {
     variant: "primary" | "secondary";
   };
   extraContent?: React.ReactNode;
+  onSelect: () => void;
 }
 
-const getGridClasses = (cols: number, rows: number) => {
-  const colSpanClasses = {
-    1: "col-span-1",
-    2: "col-span-2",
-    3: "col-span-3",
-    4: "col-span-4",
-    5: "col-span-5",
-    6: "col-span-6",
-  };
-
-  const rowSpanClasses = {
-    1: "row-span-1",
-    2: "row-span-2",
-    3: "row-span-3",
-    4: "row-span-4",
-  };
-
-  return `${colSpanClasses[cols as keyof typeof colSpanClasses]} ${
-    rowSpanClasses[rows as keyof typeof rowSpanClasses]
-  }`;
-};
-
 export function BentoCard({
-  id,  // Add this
+  id, // Add this
   cols,
   rows,
   icon: Icon,
@@ -57,6 +39,7 @@ export function BentoCard({
   description,
   actionButton,
   extraContent,
+  onSelect,
 }: BentoCardProps) {
   const {
     attributes,
@@ -65,31 +48,37 @@ export function BentoCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ 
+  } = useSortable({
     id,
     transition: {
       duration: 200,
-      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+      easing: "cubic-bezier(0.25, 1, 0.5, 1)",
     },
   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition || 'transform 200ms cubic-bezier(0.25, 1, 0.5, 1)',
-    zIndex: isDragging ? 2 : 1,
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) {
+      onSelect();
+    }
   };
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
       {...attributes}
       {...listeners}
+      onContextMenu={handleClick}
       className={cn(
-        getGridClasses(cols, rows),
-        "bg-gray-50 rounded-xl p-4 flex flex-col cursor-move touch-none",
+        `col-span-${cols} row-span-${rows}`,
+        "bg-gray-50 rounded-xl p-4 flex flex-col cursor-pointer touch-none",
         isDragging && "opacity-50 shadow-2xl scale-105",
-        "transition-all duration-200 ease-out"
+        "transition-all duration-200 ease-in-out"
       )}
     >
       <div className="flex items-center mb-2">

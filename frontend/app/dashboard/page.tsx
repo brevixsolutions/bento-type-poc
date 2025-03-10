@@ -19,9 +19,12 @@ import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { AddLinkForm } from "@/components/common/AddLinkForm";
 import { CommandMenu } from "@/components/common/CommandMenu";
+import { AnimatePresence } from "framer-motion";
+import { ResizeMenu } from "@/components/common/ResizeMenu";
 
 export default function DashboardPage() {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [socialCards, setSocialCards] = useState([
     {
       id: "1", // Add unique IDs to each card
@@ -87,6 +90,16 @@ export default function DashboardPage() {
     setSocialCards((prev) => [...prev, newCard]);
   };
 
+  const handleResize = (cols: number, rows: number) => {
+    if (!selectedCard) return;
+    setSocialCards((cards) =>
+      cards.map((card) =>
+        card.id === selectedCard ? { ...card, cols, rows } : card
+      )
+    );
+    setSelectedCard(null);
+  };
+
   return (
     <>
       <CommandMenu onAddLink={() => setShowAddForm(true)} />
@@ -108,12 +121,14 @@ export default function DashboardPage() {
               height={160}
             />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Shreya Purohit</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">
+            Shreya Purohit
+          </h1>
           <p className="text-gray-600 text-lg">Data Analyst</p>
-  
+
           <LogoutButton />
         </div>
-  
+
         {/* Cards Section */}
         <div className="md:w-3/4">
           <DndContext
@@ -149,9 +164,19 @@ export default function DashboardPage() {
                         | "primary"
                         | "secondary",
                     }}
+                    onSelect={() => setSelectedCard(card.id)}
                   />
                 ))}
               </SortableContext>
+              {selectedCard && (
+                <AnimatePresence>
+                  <ResizeMenu
+                    onResize={handleResize}
+                    onClose={() => setSelectedCard(null)}
+                    open={selectedCard != null}
+                  />
+                </AnimatePresence>
+              )}
             </div>
           </DndContext>
           {/* Mobile view remains the same */}
